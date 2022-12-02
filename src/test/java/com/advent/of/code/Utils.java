@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class Utils {
-    private final static Logger logger = LoggerFactory.getLogger(Utils.class);
+    private final static Logger logger = LoggerFactory.getLogger(Pair.class);
 
     public static List<String> readFileLines(String filePath) {
         try {
