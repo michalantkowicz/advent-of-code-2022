@@ -19,4 +19,13 @@ public class Utils {
             throw new RuntimeException(e);
         }
     }
+
+    public static String readFile(String filePath) {
+        try {
+            return FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            logger.error("Error during file loading [" + filePath + "]", e);
+            throw new RuntimeException(e);
+        }
+    }
 }
