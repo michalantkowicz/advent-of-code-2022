@@ -56,7 +56,7 @@ class SignalAnalyzerTest {
                 Arguments.of("src/test/resources/day6/example/example2.in", 23),
                 Arguments.of("src/test/resources/day6/example/example3.in", 29),
                 Arguments.of("src/test/resources/day6/example/example4.in", 26),
-                Arguments.of("src/test/resources/day6/input1.in", 1275)
+                Arguments.of("src/test/resources/day6/input1.in", 3605)
         );
     }
 }
