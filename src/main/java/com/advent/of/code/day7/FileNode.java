@@ -3,8 +3,8 @@ package com.advent.of.code.day7;
 import lombok.Value;
 
 @Value
-class FileNode implements Node {
-    Node parent;
+class FileNode {
+    DirNode parent;
     String label;
     long size;
 

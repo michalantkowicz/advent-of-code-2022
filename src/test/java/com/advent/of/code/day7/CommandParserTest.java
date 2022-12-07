@@ -45,7 +45,7 @@ class CommandParserTest {
     private static Stream<Arguments> provideArgumentsForFirstTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day7/input0.in", 95437),
-                Arguments.of("src/test/resources/day7/input1.in", 95437)
+                Arguments.of("src/test/resources/day7/input1.in", 1243729)
         );
     }
 
@@ -55,7 +55,7 @@ class CommandParserTest {
     private static Stream<Arguments> provideArgumentsForSecondTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day7/input0.in", 24933642),
-                Arguments.of("src/test/resources/day7/input2.in", 95437)
+                Arguments.of("src/test/resources/day7/input2.in", 4443914)
         );
     }
 }

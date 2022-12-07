@@ -9,11 +9,11 @@ import static java.lang.Long.parseLong;
 public class CommandParser {
     long getSizeSumForDirsLowerThan(List<String> commands, long maxSize) {
         long result = 0;
-        final Node root = parseCommands(commands);
+        final DirNode root = parseCommands(commands);
         final List<DirNode> dirs = traverseTree(root, new ArrayList<>());
 
-        for(DirNode dir : dirs) {
-            if(dir.getSize() <= maxSize) {
+        for (DirNode dir : dirs) {
+            if (dir.getSize() <= maxSize) {
                 result += dir.getSize();
             }
         }
@@ -22,8 +22,8 @@ public class CommandParser {
     }
 
     long findMinDirSizeToDelete(List<String> commands, long discSpace, long necessarySpace) {
-        final Node root = parseCommands(commands);
-        final List<DirNode> dirs = traverseTree(root, new ArrayList<>());
+        final DirNode root = parseCommands(commands);
+        final List<DirNode> dirs = traverseTree(root, new ArrayList<>(List.of(root)));
 
         long allocatedSpace = dirs.stream().filter(d -> "/".equals(d.getLabel())).findFirst().get().getSize();
         long emptySpace = discSpace - allocatedSpace;
@@ -31,8 +31,8 @@ public class CommandParser {
 
         long minDir = allocatedSpace;
 
-        for(DirNode dir : dirs) {
-            if(dir.getSize() < minDir && dir.getSize() >= cleanUpSpace) {
+        for (DirNode dir : dirs) {
+            if (dir.getSize() < minDir && dir.getSize() >= cleanUpSpace) {
                 minDir = dir.getSize();
             }
         }
@@ -40,44 +40,43 @@ public class CommandParser {
         return minDir;
     }
 
-    private List<DirNode> traverseTree(Node node, List<DirNode> dirs) {
-        if (node instanceof DirNode) {
-            dirs.add((DirNode) node);
-            for (Node child : ((DirNode) node).getChildren()) {
-                traverseTree(child, dirs);
-            }
-        } else {
-            updateParentsSize((FileNode) node);
+    private List<DirNode> traverseTree(DirNode dirNode, List<DirNode> dirs) {
+        for (FileNode file : dirNode.getFileChildren()) {
+            updateParentsSize(file);
+        }
+        for (DirNode dir : dirNode.getDirChildren()) {
+            dirs.add(dir);
+            traverseTree(dir, dirs);
         }
         return dirs;
     }
 
     private void updateParentsSize(FileNode node) {
-        DirNode parent = (DirNode) node.getParent();
+        DirNode parent = node.getParent();
         while (parent != null) {
             parent.setSize(parent.getSize() + node.getSize());
-            parent = (DirNode) parent.getParent();
+            parent = parent.getParent();
         }
     }
 
-    private Node parseCommands(List<String> commands) {
-        final Node root = new DirNode(null, "/");
-        DirNode currentNode = (DirNode) root;
+    private DirNode parseCommands(List<String> commands) {
+        final DirNode root = new DirNode(null, "/");
+        DirNode currentNode = root;
         for (int i = 0; i < commands.size(); i++) {
             final String command = commands.get(i);
             if (command.startsWith("$ cd")) {
                 final String argument = command.split(" ")[2];
                 if ("..".equals(argument)) {
-                    currentNode = (DirNode) currentNode.getParent();
+                    currentNode = currentNode.getParent();
                 } else {
-                    final Optional<Node> node = currentNode.getChildren().stream()
+                    final Optional<DirNode> node = currentNode.getDirChildren().stream()
                             .filter(c -> argument.equals(c.getLabel()))
                             .findFirst();
                     if (node.isPresent()) {
-                        currentNode = (DirNode) node.get();
+                        currentNode = node.get();
                     } else {
                         DirNode newChild = new DirNode(currentNode, argument);
-                        currentNode.getChildren().add(newChild);
+                        currentNode.getDirChildren().add(newChild);
                         currentNode = newChild;
                     }
                 }
@@ -86,8 +85,11 @@ public class CommandParser {
                     final String output = commands.get(++i);
                     final String a = output.split(" ")[0];
                     final String b = output.split(" ")[1];
-                    final Node child = "dir".equals(a) ? new DirNode(currentNode, b) : new FileNode(currentNode, b, parseLong(a));
-                    currentNode.getChildren().add(child);
+                    if ("dir".equals(a)) {
+                        currentNode.getDirChildren().add(new DirNode(currentNode, b));
+                    } else {
+                        currentNode.getFileChildren().add(new FileNode(currentNode, b, parseLong(a)));
+                    }
                 }
             } else {
                 throw new IllegalArgumentException("Invalid command provided: [" + command + "]");

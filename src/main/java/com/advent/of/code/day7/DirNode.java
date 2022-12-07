@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-class DirNode implements Node {
-    private final Node parent;
+class DirNode {
+    private final DirNode parent;
     private final String label;
 
     private long size = 0L;
 
-    private List<Node> children = new ArrayList<>();
+    private List<DirNode> dirChildren = new ArrayList<>();
+    private List<FileNode> fileChildren = new ArrayList<>();
 
     @Override
     public String toString() {
-        return label + "[" + children.size() + " children]";
+        return label + "[" + dirChildren.size() + " dirs, " + fileChildren.size() + "files]";
     }
 }
