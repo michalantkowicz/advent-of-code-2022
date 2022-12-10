@@ -1,6 +1,6 @@
 package com.advent.of.code.day8;
 
-import com.advent.of.code.Pair;
+import com.advent.of.code.IntPair;
 import lombok.Value;
 
 import java.util.HashSet;
@@ -116,17 +116,6 @@ class ForestChecker {
         Integer[][] trees;
         int width, height;
     }
-
-    private static class IntPair extends Pair<Integer, Integer> {
-        IntPair(Integer a, Integer b) {
-            super(a, b);
-        }
-
-        IntPair(IntPair pair) {
-            super(pair.getA(), pair.getB());
-        }
-    }
-
 }
 
 
