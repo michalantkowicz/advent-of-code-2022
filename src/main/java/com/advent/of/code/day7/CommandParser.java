@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import static java.lang.Long.parseLong;
 
-public class CommandParser {
+class CommandParser {
     long getSizeSumForDirsLowerThan(List<String> commands, long maxSize) {
         long result = 0;
         final DirNode root = parseCommands(commands);

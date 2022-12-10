@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CraneController {
+class CraneController {
     String getTopsAfterMoves(List<String> stacks, List<Move> moves, boolean canPickMultipleCrates) {
         final List<String> result = new ArrayList<>(stacks);
 

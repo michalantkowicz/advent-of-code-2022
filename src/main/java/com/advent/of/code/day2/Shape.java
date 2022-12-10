@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public enum Shape {
+enum Shape {
     ROCK(1, List.of("A", "X")), PAPER(2, List.of("B", "Y")), SCISSORS(3, List.of("C", "Z"));
 
     static {
