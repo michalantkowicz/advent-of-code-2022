@@ -17,5 +17,4 @@ class MonkeyBusiness {
     private Map<Integer, Monkey> playRound(Map<Integer, Monkey> monkeys) {
         return monkeys;
     }
-
 }
