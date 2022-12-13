@@ -74,5 +74,3 @@ class PacketProcessor {
         return true;
     }
 }
-//2237 too low
-//6081 too high

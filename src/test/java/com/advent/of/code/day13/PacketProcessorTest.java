@@ -67,14 +67,14 @@ class PacketProcessorTest {
     private static Stream<Arguments> provideArgumentsForFirstTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day13/input0.in", 13L),
-                Arguments.of("src/test/resources/day13/input1.in", 55L)
+                Arguments.of("src/test/resources/day13/input1.in", 6076L)
         );
     }
 
     private static Stream<Arguments> provideArgumentsForSecondTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day13/input0.in", 140L),
-                Arguments.of("src/test/resources/day13/input1.in", 55L)
+                Arguments.of("src/test/resources/day13/input1.in", 24805L)
         );
     }
 }
