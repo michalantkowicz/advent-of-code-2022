@@ -12,9 +12,8 @@ import java.util.function.Supplier;
 @Builder
 class Monkey {
     private int id;
-    private Long acc;
-    private List<Long> muls;
     private List<Long> items;
+    private Long div;
     private Function<Long, Long> operation;
     private Predicate<Long> test;
     private Supplier<Integer> ifTrue;

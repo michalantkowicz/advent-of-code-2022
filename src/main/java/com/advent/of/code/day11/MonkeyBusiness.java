@@ -24,6 +24,8 @@ class MonkeyBusiness {
                 final Long item = monkey.getItems().remove(0);
                 Long worryLevel = divide ? Math.floorDiv(monkey.getOperation().apply(item), 3) : monkey.getOperation().apply(item);
 
+                worryLevel %= (monkeys.values().stream().mapToLong(Monkey::getDiv).reduce((a,b) -> a*b)).getAsLong();
+                
                 Integer targetMonkey = null;
 
                 if (monkey.getTest().test(worryLevel)) {
