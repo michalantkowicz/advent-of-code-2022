@@ -35,8 +35,46 @@ class SandCaveTest {
         int maxX = flatten(inputLines).stream().max(Comparator.comparingInt(IntPair::getA)).get().getA();
         int maxY = flatten(inputLines).stream().max(Comparator.comparingInt(IntPair::getB)).get().getB();
 
-        final IntPair sandSource = new IntPair(500 - minX, 0);
+        int[][] input = getInput(inputLines, minX, maxX, maxY);
 
+        // when
+        long result = sandCave.simulateAndCountRestSand(input, new IntPair(500 - minX, 0));
+
+        // then
+        Assertions.assertThat(result).isEqualTo(expectedValue);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideArgumentsForSecondTask")
+    void test_shouldCalculateProperAmountOfRestSandWithFloor(String inputFilePath, long expectedValue) {
+        // given
+        final SandCave sandCave = new SandCave();
+        final List<List<IntPair>> inputLines = readFileLines(inputFilePath).stream()
+                .map(line -> Arrays.stream(line.trim().split(" -> "))
+                        .map(s -> {
+                            int x = Integer.parseInt(s.trim().split(",")[0]);
+                            int y = Integer.parseInt(s.trim().split(",")[1]);
+                            return new IntPair(x, y);
+                        })
+                        .collect(Collectors.toList())
+                ).toList();
+
+        int maxY = flatten(inputLines).stream().max(Comparator.comparingInt(IntPair::getB)).get().getB();
+
+        int[][] input = getInput(inputLines, 0, 1000, maxY + 2);
+
+        for (int x = 0; x < input.length; x++) {
+            input[x][maxY + 2] = SandCave.ROCK;
+        }
+
+        // when
+        long result = sandCave.simulateAndCountRestSand(input, new IntPair(500, 0));
+
+        // then
+        Assertions.assertThat(result).isEqualTo(expectedValue);
+    }
+
+    private int[][] getInput(List<List<IntPair>> inputLines, int minX, int maxX, int maxY) {
         int[][] input = new int[maxX + 1][maxY + 1];
 
         for (int[] row : input) {
@@ -63,17 +101,20 @@ class SandCaveTest {
             }
         }
 
-        // when
-        long result = sandCave.simulateAndCountRestSand(input, sandSource);
-
-        // then
-        Assertions.assertThat(result).isEqualTo(expectedValue);
+        return input;
     }
 
     private static Stream<Arguments> provideArgumentsForFirstTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day14/input0.in", 24L),
                 Arguments.of("src/test/resources/day14/input1.in", 1078L)
+        );
+    }
+
+    private static Stream<Arguments> provideArgumentsForSecondTask() {
+        return Stream.of(
+                Arguments.of("src/test/resources/day14/input0.in", 93L),
+                Arguments.of("src/test/resources/day14/input1.in", 30157L)
         );
     }
 

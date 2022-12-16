@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class SandCave {
+class SandCave {
     static int EMPTY = 0, SAND = 1, ROCK = 2;
 
     int simulateAndCountRestSand(int[][] map, IntPair sandSource) {
@@ -16,6 +16,10 @@ public class SandCave {
             if (sandIsInMap(map, sandPosition)) {
                 map[sandPosition.getA()][sandPosition.getB()] = SAND;
                 restSand.add(sandPosition);
+
+                if (sandSource.equals(sandPosition)) {
+                    break;
+                }
             } else {
                 break;
             }
