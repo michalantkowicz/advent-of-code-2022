@@ -23,22 +23,12 @@ class PacketProcessorTest {
 
         List<Pair<String, String>> input = new ArrayList<>();
 
-        String tempA = null;
-        String tempB = null;
-
-        for (String line : inputLines) {
-            if (line.isEmpty()) {
-                input.add(new Pair<>(tempA, tempB));
-                tempA = null;
-                tempB = null;
-            } else if (tempA == null) {
-                tempA = line;
-            } else {
-                tempB = line;
+        for (int i = 0; i < inputLines.size(); i++) {
+            if (inputLines.get(i).isEmpty()) {
+                input.add(new Pair<>(inputLines.get(i - 2), inputLines.get(i - 1)));
             }
         }
-
-        input.add(new Pair<>(tempA, tempB));
+        input.add(new Pair<>(inputLines.get(inputLines.size() - 2), inputLines.get(inputLines.size() - 1)));
 
         // when
         long result = packetProcessor.sumRightOrderIndices(input);
