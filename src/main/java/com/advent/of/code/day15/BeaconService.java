@@ -12,9 +12,8 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
-public class BeaconService {
-
-    public long countReservedAt(List<Pair<IntPair, IntPair>> input, int line) {
+class BeaconService {
+    long countReservedAt(List<Pair<IntPair, IntPair>> input, int line) {
         final List<Pair<Long, Long>> ranges = new ArrayList<>();
         long beaconsInRow = new HashSet<>(input.stream().map(Pair::getB).collect(Collectors.toList()))
                 .stream()
@@ -35,22 +34,14 @@ public class BeaconService {
 
         ranges.sort(Comparator.comparingLong(Pair::getA));
 
-        long result = 0;
+        final Set<Long> reservedPositions = new HashSet<>();
 
-        for (int i = 0; i < ranges.size(); i++) {
-            Set<Pair<Long, Long>> exclusive = new HashSet<>();
-            exclusive.add(ranges.get(i));
-
-            for (int j = i + 1; j < ranges.size(); j++) {
-                final Pair<Long, Long> current = ranges.get(i);
-                final Pair<Long, Long> next = ranges.get(j);
-                result -= Math.max(0, Math.min(current.getB(), next.getB()) - Math.max(current.getA(), next.getA()) + 1);
+        for (Pair<Long, Long> range : ranges) {
+            for (long i = range.getA(); i <= range.getB(); i++) {
+                reservedPositions.add(i);
             }
-
-            result += exclusive.stream().mapToLong(r -> r.getB() - r.getA() + 1).sum();
         }
 
-        return result - beaconsInRow;
+        return reservedPositions.size() - beaconsInRow;
     }
 }
-//4200403 too low

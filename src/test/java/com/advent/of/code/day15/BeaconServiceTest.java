@@ -41,7 +41,7 @@ class BeaconServiceTest {
     private static Stream<Arguments> provideArgumentsForFirstTask() {
         return Stream.of(
                 Arguments.of("src/test/resources/day15/input0.in", 10, 26L),
-                Arguments.of("src/test/resources/day15/input1.in", 2000000, 1078L)
+                Arguments.of("src/test/resources/day15/input1.in", 2000000, 5147333L)
         );
     }
 }
